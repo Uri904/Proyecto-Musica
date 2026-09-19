@@ -1,0 +1,167 @@
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <nav class="nav-list">
+      <a class="nav-item">
+        <span class="nav-icon">⌂</span>
+        <span class="nav-label">Inicio</span>
+      </a>
+      <a class="nav-item">
+        <span class="nav-icon">☰</span>
+        <span class="nav-label">Biblioteca</span>
+      </a>
+      <a class="nav-item">
+        <span class="nav-icon">♫</span>
+        <span class="nav-label">Playlist</span>
+      </a>
+      <a class="nav-item nav-item--active">
+        <span class="nav-icon">▤</span>
+        <span class="nav-label">Estadísticas</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-icon">♪</span>
+        <span class="brand-name">Música</span>
+      </div>
+      <img class="avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=user123&backgroundColor=b6e3f4" alt="Foto de perfil">
+    </header>
+
+    <section class="page-heading">
+      <h1 class="page-title">Tus estadísticas</h1>
+      <p class="page-subtitle">Analiza tu música</p>
+    </section>
+
+    <div class="filter-pills">
+      <button class="pill pill--active" type="button">Esta semana</button>
+      <button class="pill" type="button">Este mes</button>
+      <button class="pill" type="button">Este año</button>
+    </div>
+
+    <section class="dashboard-grid">
+
+      <!-- Stat: canciones escuchadas -->
+      <article class="card stat-card area-stat1">
+        <span class="stat-icon">♪</span>
+        <p class="stat-number">1,248</p>
+        <p class="stat-label">canciones escuchadas</p>
+      </article>
+
+      <!-- Stat: artistas escuchados -->
+      <article class="card stat-card area-stat2">
+        <span class="stat-icon">👥</span>
+        <p class="stat-number">34</p>
+        <p class="stat-label">artistas escuchados</p>
+      </article>
+
+      <!-- Panel: canciones más escuchadas -->
+      <article class="card panel area-songs">
+        <h2 class="panel-title">Canciones más escuchadas</h2>
+
+        <ul class="song-list">
+          <li class="song-item">
+            <img class="song-cover" src="https://picsum.photos/seed/nipedo/100" alt="">
+            <div class="song-info">
+              <p class="song-title">ni pedo</p>
+              <p class="song-artist">Peso Pluma, TIto Double P</p>
+            </div>
+            <button class="play-btn" type="button" aria-label="Reproducir ni pedo">▶</button>
+          </li>
+          <li class="song-item">
+            <img class="song-cover" src="https://picsum.photos/seed/bienbebe/100" alt="">
+            <div class="song-info">
+              <p class="song-title">Bien Bebé</p>
+              <p class="song-artist">El Malilla</p>
+            </div>
+            <button class="play-btn" type="button" aria-label="Reproducir Bien Bebé">▶</button>
+          </li>
+        </ul>
+
+        <a class="ver-todo" href="javascript:void(0)">ver todo</a>
+      </article>
+
+      <!-- Stat: tiempo de música escuchada -->
+      <article class="card stat-card area-time">
+        <span class="stat-icon">🕐</span>
+        <p class="stat-number">76 h 34 min</p>
+        <p class="stat-label">tiempo de música escuchada</p>
+      </article>
+
+      <!-- Card: artista más escuchado -->
+      <article class="card artist-card area-artist">
+        <h2 class="panel-title">Artistas más escuchados</h2>
+        <div class="artist-row">
+          <img class="artist-photo" src="https://i.pravatar.cc/150?img=13" alt="Feid">
+          <div class="artist-info">
+            <p class="artist-name">Feid</p>
+            <p class="artist-plays">Lo escuchaste 150 veces</p>
+          </div>
+          <span class="artist-arrow" aria-hidden="true">→</span>
+        </div>
+      </article>
+
+      <!-- Panel: géneros favoritos -->
+      <article class="card panel area-genres">
+        <h2 class="panel-title">Géneros favoritos</h2>
+
+        <ul class="genre-list">
+          <li class="genre-row">
+            <span class="genre-name">Pop</span>
+            <div class="genre-bar-track">
+              <div class="genre-bar-fill" style="width:50%"></div>
+            </div>
+            <span class="genre-percent">50%</span>
+          </li>
+          <li class="genre-row">
+            <span class="genre-name">Reaggaeton</span>
+            <div class="genre-bar-track">
+              <div class="genre-bar-fill" style="width:63%"></div>
+            </div>
+            <span class="genre-percent">63%</span>
+          </li>
+          <li class="genre-row">
+            <span class="genre-name">Rock</span>
+            <div class="genre-bar-track">
+              <div class="genre-bar-fill" style="width:45%"></div>
+            </div>
+            <span class="genre-percent">45%</span>
+          </li>
+          <li class="genre-row">
+            <span class="genre-name">Heavy metal</span>
+            <div class="genre-bar-track">
+              <div class="genre-bar-fill" style="width:24%"></div>
+            </div>
+            <span class="genre-percent">24%</span>
+          </li>
+        </ul>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- Bottom navigation: shown only on phone & watch breakpoints -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav-item">
+      <span class="nav-icon">⌂</span>
+      <span class="bottom-nav-label">Inicio</span>
+    </a>
+    <a class="bottom-nav-item">
+      <span class="nav-icon">☰</span>
+      <span class="bottom-nav-label">Biblioteca</span>
+    </a>
+    <a class="bottom-nav-item">
+      <span class="nav-icon">♫</span>
+      <span class="bottom-nav-label">Playlist</span>
+    </a>
+    <a class="bottom-nav-item bottom-nav-item--active">
+      <span class="nav-icon">▤</span>
+      <span class="bottom-nav-label">Estadísticas</span>
+    </a>
+  </nav>
+</div>

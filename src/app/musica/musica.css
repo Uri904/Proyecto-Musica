@@ -1,0 +1,997 @@
+/* ==========================================================================
+   Tokens
+   ========================================================================== */
+:host {
+  --sidebar-bg: #1a1a1a;
+  --sidebar-active-start: #a855f7;
+  --sidebar-active-end: #7c3aed;
+
+  --main-bg-top: #3a1256;
+  --main-bg-bottom: #17081f;
+
+  --card-bg: #3c2456;
+  --card-bg-alt: #3a2354;
+  --card-border: rgba(255, 255, 255, 0.06);
+
+  --text-primary: #f5f0fa;
+  --text-secondary: #b9a8cc;
+  --text-muted: #8c7aa0;
+
+  --accent-purple: #9d3fe0;
+  --accent-magenta: #d61fe0;
+  --accent-gradient: linear-gradient(90deg, #9333ea, #d946ef);
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* ==========================================================================
+   App shell
+   ========================================================================== */
+.app-shell {
+  display: flex;
+  width: 100%;
+  height: 100dvh;
+  height: 100vh;
+  background: var(--sidebar-bg);
+  overflow: hidden; /* the shell itself never scrolls or overflows the screen */
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+.sidebar {
+  width: 208px;
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  padding: 32px 0 32px 0;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  text-decoration: none;
+  border-radius: 14px 0 0 14px;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  color: var(--text-primary);
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+  width: 22px;
+  text-align: center;
+}
+
+.nav-item--active {
+  background: linear-gradient(135deg, var(--sidebar-active-start), var(--sidebar-active-end));
+  color: #ffffff;
+  margin-right: -1px;
+}
+
+/* ==========================================================================
+   Main
+   ========================================================================== */
+.main {
+  flex: 1;
+  min-width: 0;
+  height: 100vh;
+  overflow-y: auto;   /* KEY FIX: content scrolls inside the screen instead of getting clipped */
+  -webkit-overflow-scrolling: touch;
+  background: linear-gradient(180deg, var(--main-bg-top) 0%, var(--main-bg-bottom) 100%);
+  padding: 32px 40px 48px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  font-size: 1.8rem;
+  background: linear-gradient(135deg, #c084fc, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand-name {
+  font-size: 1.7rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #c084fc, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffffff;
+}
+
+.page-heading {
+  margin-bottom: 20px;
+}
+
+.page-title {
+  margin: 0 0 6px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Filter pills
+   ========================================================================== */
+.filter-pills {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.pill {
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--card-bg);
+  cursor: pointer;
+}
+
+.pill--active {
+  background: var(--accent-gradient);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Dashboard grid  (matches the asymmetric card layout)
+   ========================================================================== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.6fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "stat1  stat2  songs"
+    "time   .      songs"
+    "artist artist genres";
+  gap: 20px;
+}
+
+.area-stat1  { grid-area: stat1; }
+.area-stat2  { grid-area: stat2; }
+.area-time   { grid-area: time; }
+.area-artist { grid-area: artist; }
+.area-songs  { grid-area: songs; }
+.area-genres { grid-area: genres; }
+
+/* ==========================================================================
+   Cards — shared
+   ========================================================================== */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+}
+
+/* Stat cards */
+.stat-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-icon {
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+  color: #c084fc;
+}
+
+.stat-number {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.stat-label {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+/* Panel title shared by songs / genres / artist card */
+.panel-title {
+  margin: 0 0 18px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Songs panel
+   ========================================================================== */
+.panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.song-list {
+  list-style: none;
+  margin: 0 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.song-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.song-cover {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.song-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.song-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-artist {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.play-btn {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.ver-todo {
+  align-self: flex-end;
+  margin-top: 24px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-magenta);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Artist card
+   ========================================================================== */
+.artist-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.artist-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.artist-photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.artist-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.artist-name {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.artist-plays {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.artist-arrow {
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Genres panel
+   ========================================================================== */
+.genre-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.genre-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 40px;
+  align-items: center;
+  gap: 10px;
+}
+
+.genre-name {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+
+.genre-bar-track {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.genre-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #c026d3, #e879f9);
+}
+
+.genre-percent {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+/* ==========================================================================
+   Bottom navigation (phone & watch only — hidden everywhere else)
+   ========================================================================== */
+.bottom-nav {
+  display: none; /* enabled only in the phone / watch / car media queries below */
+  align-items: center;
+  justify-content: space-around;
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 4px calc(6px + env(safe-area-inset-bottom));
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 0.62rem;
+  flex: 1;
+  text-align: center;
+}
+
+.bottom-nav-item--active {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--sidebar-active-start), var(--sidebar-active-end));
+}
+
+.bottom-nav-label {
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Responsive — large tablet landscape (e.g. iPad Pro 1180px+)
+   ========================================================================== */
+@media (min-width: 1180px) {
+  .main {
+    padding: 40px 56px 56px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr 1.8fr;
+    gap: 26px;
+  }
+
+  .card {
+    padding: 26px;
+  }
+}
+
+/* ==========================================================================
+   Responsive — tablet portrait (601px–1023px): icon-only sidebar, 2 columns
+   ========================================================================== */
+@media (max-width: 1023px) {
+  .sidebar {
+    width: 88px;
+    padding: 24px 0;
+  }
+
+  .nav-label {
+    display: none;
+  }
+
+  .nav-item {
+    justify-content: center;
+    padding: 16px 0;
+    border-radius: 14px;
+    margin: 0 12px;
+  }
+
+  .nav-item--active {
+    margin-right: 12px;
+  }
+
+  .main {
+    padding: 24px 24px 40px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "stat1 stat2"
+      "time  time"
+      "songs songs"
+      "artist artist"
+      "genres genres";
+  }
+
+  .genre-row {
+    grid-template-columns: 80px 1fr 36px;
+  }
+}
+
+
+/* ==========================================================================
+   Responsive — PHONE (≤ 599px)
+   Sidebar is replaced by a bottom nav bar, and every section is compacted
+   so the whole dashboard fits one screen with NO scrolling: 3 stats in a
+   row (not stacked), tighter type/spacing, and the 4th genre bar dropped.
+   ========================================================================== */
+@media (max-width: 599px) {
+  .app-shell {
+    flex-direction: column; /* stacks: main, then bottom-nav, filling 100dvh together */
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .main {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden; /* no scroll — content is sized to fit instead */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 14px 8px;
+  }
+
+  .topbar {
+    margin-bottom: 0;
+  }
+
+  .brand-icon {
+    font-size: 1.05rem;
+  }
+
+  .brand-name {
+    font-size: 1.05rem;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-width: 2px;
+  }
+
+  .page-heading {
+    margin-bottom: 0;
+  }
+
+  .page-title {
+    font-size: 1.15rem;
+    margin-bottom: 1px;
+  }
+
+  .page-subtitle {
+    font-size: 0.68rem;
+  }
+
+  .filter-pills {
+    gap: 6px;
+    margin-bottom: 0;
+    overflow-x: visible;
+  }
+
+  .pill {
+    flex: 1;
+    text-align: center;
+    padding: 6px 4px;
+    font-size: 0.66rem;
+  }
+
+  /* 3 stat cards side by side (not stacked) to save vertical space */
+  .dashboard-grid {
+    flex: 1;
+    min-height: 0;
+    gap: 6px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "stat1  stat2  time"
+      "artist artist artist"
+      "songs  songs  songs"
+      "genres genres genres";
+  }
+
+  .card {
+    padding: 7px 8px;
+    border-radius: 12px;
+  }
+
+  .stat-icon {
+    font-size: 0.85rem;
+    margin-bottom: 1px;
+  }
+
+  .stat-number {
+    font-size: 0.74rem;
+    line-height: 1.1;
+    margin-bottom: 0;
+  }
+
+  .stat-label {
+    font-size: 0.5rem;
+    line-height: 1.1;
+  }
+
+  .panel-title {
+    font-size: 0.64rem;
+    margin-bottom: 4px;
+  }
+
+  .artist-row {
+    gap: 8px;
+  }
+
+  .artist-photo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .artist-name {
+    font-size: 0.74rem;
+    margin-bottom: 1px;
+  }
+
+  .artist-plays {
+    font-size: 0.55rem;
+  }
+
+  .artist-arrow {
+    font-size: 0.8rem;
+  }
+
+  .song-list {
+    gap: 4px;
+  }
+
+  .song-item {
+    gap: 6px;
+  }
+
+  .song-cover {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+  }
+
+  .song-title {
+    font-size: 0.63rem;
+  }
+
+  .song-artist {
+    font-size: 0.5rem;
+  }
+
+  .play-btn {
+    width: 18px;
+    height: 18px;
+    font-size: 0.55rem;
+  }
+
+  .ver-todo {
+    font-size: 0.55rem;
+    margin-top: 4px;
+  }
+
+  .genre-list {
+    gap: 3px;
+  }
+
+  /* only 3 genre bars fit comfortably — matches the reference screen */
+  .genre-row:nth-child(4) {
+    display: none;
+  }
+
+  .genre-row {
+    grid-template-columns: 46px 1fr 22px;
+    gap: 4px;
+  }
+
+  .genre-name,
+  .genre-percent {
+    font-size: 0.5rem;
+  }
+
+  .genre-bar-track {
+    height: 4px;
+  }
+
+  .bottom-nav-item {
+    font-size: 0.58rem;
+    gap: 2px;
+  }
+
+  .nav-icon {
+    font-size: 1rem;
+  }
+}
+
+/* ==========================================================================
+   Responsive — WATCH (≤ 260px, very small square/round screens)
+   Only the essentials fit here: header, filters, and the 3 quick stats.
+   Artist / songs / genres are dropped entirely — a watch is for a glance,
+   not the full dashboard.
+   ========================================================================== */
+@media (max-width: 260px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .main {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 8px 6px;
+  }
+
+  .topbar {
+    margin-bottom: 0;
+  }
+
+  .brand-icon {
+    font-size: 0.85rem;
+  }
+
+  .brand-name {
+    font-size: 0.8rem;
+  }
+
+  .avatar {
+    width: 24px;
+    height: 24px;
+    border-width: 1px;
+  }
+
+  .page-heading {
+    margin-bottom: 0;
+  }
+
+  .page-title {
+    font-size: 0.78rem;
+    margin-bottom: 0;
+  }
+
+  .page-subtitle {
+    font-size: 0.5rem;
+  }
+
+  .filter-pills {
+    gap: 3px;
+  }
+
+  .pill {
+    flex: 1;
+    text-align: center;
+    padding: 3px 2px;
+    font-size: 0.46rem;
+  }
+
+  /* only the 3 stat cards — everything else is hidden on a watch face */
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "stat1 stat2 time";
+    gap: 4px;
+  }
+
+  .area-artist,
+  .area-songs,
+  .area-genres {
+    display: none;
+  }
+
+  .card {
+    padding: 5px 4px;
+    border-radius: 9px;
+  }
+
+  .stat-icon {
+    font-size: 0.6rem;
+    margin-bottom: 1px;
+  }
+
+  .stat-number {
+    font-size: 0.52rem;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 0.4rem;
+    line-height: 1.05;
+  }
+
+  .bottom-nav-item {
+    font-size: 0.38rem;
+    gap: 1px;
+  }
+
+  .nav-icon {
+    font-size: 0.72rem;
+  }
+}
+
+/* ==========================================================================
+   Responsive — CAR DISPLAY (wide but short, e.g. 800×480, 1280×400)
+   The side nav is dropped in favour of an icon-only bottom bar (keeps hands
+   off a vertical menu while driving), the time filters move into a slim
+   left column, and Géneros is dropped so the rest fits with no scrolling.
+   ========================================================================== */
+@media (max-height: 500px) and (min-width: 700px) and (orientation: landscape) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .bottom-nav-label {
+    display: none; /* icon-only bar, like the reference */
+  }
+
+  .main {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 128px 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "topbar  topbar"
+      "pills   heading"
+      "pills   dashboard";
+    column-gap: 18px;
+    row-gap: 8px;
+    padding: 10px 22px 8px;
+  }
+
+  .topbar {
+    grid-area: topbar;
+    margin-bottom: 0;
+  }
+
+  .brand-name {
+    font-size: 1.05rem;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .page-heading {
+    grid-area: heading;
+    margin-bottom: 0;
+  }
+
+  .page-title {
+    font-size: 1.15rem;
+    margin-bottom: 0;
+  }
+
+  .page-subtitle {
+    display: none; /* trim non-essential copy to save vertical space */
+  }
+
+  /* time filters become a slim vertical column on the left */
+  .filter-pills {
+    grid-area: pills;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 0;
+  }
+
+  .pill {
+    width: 100%;
+    text-align: center;
+    padding: 8px 6px;
+    font-size: 0.75rem;
+  }
+
+  /* stats row + artist card on the left, tall songs panel on the right */
+  .dashboard-grid {
+    grid-area: dashboard;
+    min-height: 0;
+    grid-template-columns: 1fr 1fr 1fr 1.2fr;
+    grid-template-rows: auto auto;
+    gap: 8px;
+    grid-template-areas:
+      "stat1  stat2  time   songs"
+      "artist artist artist songs";
+  }
+
+  .area-genres {
+    display: none;
+  }
+
+  .card {
+    padding: 10px 12px;
+  }
+
+  .stat-icon {
+    font-size: 1.1rem;
+    margin-bottom: 3px;
+  }
+
+  .stat-number {
+    font-size: 1rem;
+  }
+
+  .stat-label {
+    font-size: 0.62rem;
+  }
+
+  .panel-title {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+
+  .artist-row {
+    gap: 10px;
+  }
+
+  .artist-photo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .artist-name {
+    font-size: 0.9rem;
+    margin-bottom: 1px;
+  }
+
+  .artist-plays {
+    font-size: 0.65rem;
+  }
+
+  .song-list {
+    gap: 6px;
+  }
+
+  .song-cover {
+    width: 30px;
+    height: 30px;
+  }
+
+  .song-title {
+    font-size: 0.72rem;
+  }
+
+  .song-artist {
+    font-size: 0.6rem;
+  }
+
+  .ver-todo {
+    margin-top: 4px;
+    font-size: 0.62rem;
+  }
+}
