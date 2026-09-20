@@ -65,22 +65,26 @@
         <h2 class="panel-title">Canciones más escuchadas</h2>
 
         <ul class="song-list">
-          <li class="song-item">
-            <img class="song-cover" src="https://picsum.photos/seed/nipedo/100" alt="">
-            <div class="song-info">
-              <p class="song-title">ni pedo</p>
-              <p class="song-artist">Peso Pluma, TIto Double P</p>
-            </div>
-            <button class="play-btn" type="button" aria-label="Reproducir ni pedo">▶</button>
-          </li>
-          <li class="song-item">
-            <img class="song-cover" src="https://picsum.photos/seed/bienbebe/100" alt="">
-            <div class="song-info">
-              <p class="song-title">Bien Bebé</p>
-              <p class="song-artist">El Malilla</p>
-            </div>
-            <button class="play-btn" type="button" aria-label="Reproducir Bien Bebé">▶</button>
-          </li>
+          @for (cancion of canciones; track cancion.id) {
+            <li class="song-item">
+              <img
+                class="song-cover"
+                [src]="cancion.imagen"
+                [alt]="cancion.titulo"
+              >
+              <div class="song-info">
+                <p class="song-title">{{ cancion.titulo }}</p>
+                <p class="song-artist">{{ cancion.artista }}</p>
+              </div>
+              <button
+                class="play-btn"
+                type="button"
+                [attr.aria-label]="'Reproducir ' + cancion.titulo"
+              >
+                ▶
+              </button>
+            </li>
+          }
         </ul>
 
         <a class="ver-todo" href="javascript:void(0)">ver todo</a>
