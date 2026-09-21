@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Cancion } from '../interfaces/cancion.interface';
 import { MusicaService } from './musica.service';
 
@@ -10,10 +10,8 @@ import { MusicaService } from './musica.service';
 })
 export class Musica {
 
-  canciones: Cancion[] = [];
+  private musicaService = inject(MusicaService);
 
-  constructor(private musicaService: MusicaService) {
-    this.canciones = this.musicaService.obtenerCanciones();
-  }
+  canciones: Cancion[] = this.musicaService.obtenerCanciones();
 
 }
