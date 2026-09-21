@@ -1,0 +1,175 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(
+    135deg,
+    #52ABEB,
+    #63D0A1
+  );
+
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+
+  background: white;
+  padding: 40px;
+
+  border-radius: 20px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+
+  margin: 0 auto 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #52ABEB,
+    #63D0A1
+  );
+
+  font-size: 32px;
+}
+
+h1 {
+  text-align: center;
+  margin: 0;
+
+  color: #222;
+  font-size: 30px;
+}
+
+.subtitle {
+  text-align: center;
+
+  color: #777;
+
+  margin: 8px 0 30px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-weight: 600;
+  color: #333;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+
+  border: 1px solid #ddd;
+
+  border-radius: 10px;
+
+  padding: 0 14px;
+
+  transition: 0.3s;
+}
+
+.input-container:focus-within {
+  border-color: #52ABEB;
+
+  box-shadow: 0 0 0 3px rgba(82, 171, 235, 0.15);
+}
+
+.icon {
+  margin-right: 10px;
+
+  font-size: 18px;
+}
+
+.input-container input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  padding: 14px 0;
+
+  font-size: 15px;
+}
+
+.forgot-password {
+  text-align: right;
+
+  margin-bottom: 25px;
+}
+
+.forgot-password a,
+.register a {
+  color: #3498db;
+
+  text-decoration: none;
+
+  font-weight: 600;
+}
+
+.login-button {
+  width: 100%;
+
+  border: none;
+
+  padding: 14px;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #52ABEB,
+    #63D0A1
+  );
+
+  color: white;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.register {
+  text-align: center;
+
+  margin-top: 25px;
+
+  color: #777;
+}
+
+.register a {
+  margin-left: 5px;
+}
