@@ -10,18 +10,22 @@
     <h1>Bienvenido</h1>
     <p class="subtitle">Inicia sesión para continuar</p>
 
-    <form>
+    <form [formGroup]="formulario" (ngSubmit)="iniciarSesion()" novalidate>
 
       <div class="input-group">
-        <label for="correo">Correo electrónico</label>
+        <label for="usuario">Usuario</label>
 
         <div class="input-container">
           <input
-            type="email"
-            id="correo"
-            placeholder="Ingresa tu correo"
+            type="text"
+            id="usuario"
+            placeholder="Ingresa tu usuario"
+            formControlName="usuario"
           >
         </div>
+        @if (formulario.controls.usuario.invalid && formulario.controls.usuario.touched) {
+          <small>Ingresa tu usuario.</small>
+        }
       </div>
 
       <div class="input-group">
@@ -32,16 +36,24 @@
             type="password"
             id="password"
             placeholder="Ingresa tu contraseña"
+            formControlName="password"
           >
         </div>
+        @if (formulario.controls.password.invalid && formulario.controls.password.touched) {
+          <small>La contraseña debe tener al menos 6 caracteres.</small>
+        }
       </div>
 
       <div class="forgot-password">
         <a href="#">¿Olvidaste tu contraseña?</a>
       </div>
 
-      <button type="submit" class="login-button" >
-        Iniciar sesión
+      @if (mensaje) {
+        <p role="alert">{{ mensaje }}</p>
+      }
+
+      <button type="submit" class="login-button" [disabled]="cargando">
+        {{ cargando ? 'Ingresando...' : 'Iniciar sesión' }}
       </button>
 
     </form>

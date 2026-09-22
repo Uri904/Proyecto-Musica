@@ -13,7 +13,7 @@
       Regístrate para comenzar a escuchar música
     </p>
 
-    <form>
+    <form [formGroup]="formulario" (ngSubmit)="crearCuenta()" novalidate>
 
       <div class="input-group">
         <label for="nombre">Nombre</label>
@@ -24,6 +24,7 @@
             type="text"
             id="nombre"
             placeholder="Ingresa tu nombre"
+            formControlName="nombre"
           >
         </div>
       </div>
@@ -37,6 +38,7 @@
             type="email"
             id="correo"
             placeholder="Ingresa tu correo"
+            formControlName="correo"
           >
         </div>
       </div>
@@ -50,6 +52,7 @@
             type="password"
             id="password"
             placeholder="Crea una contraseña"
+            formControlName="password"
           >
         </div>
       </div>
@@ -65,12 +68,17 @@
             type="password"
             id="confirmarPassword"
             placeholder="Confirma tu contraseña"
+            formControlName="confirmarPassword"
           >
         </div>
       </div>
 
-      <button type="submit" class="register-button" >
-        Crear cuenta
+      @if (mensaje) {
+        <p role="alert">{{ mensaje }}</p>
+      }
+
+      <button type="submit" class="register-button" [disabled]="cargando">
+        {{ cargando ? 'Creando cuenta...' : 'Crear cuenta' }}
       </button>
 
     </form>
