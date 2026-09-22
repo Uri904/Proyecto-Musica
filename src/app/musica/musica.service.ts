@@ -1,10 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Cancion } from '../interfaces/cancion.interface';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
+import {
+  Cancion,
+  SpotifySearchResponse,
+} from '../interfaces/cancion.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MusicaService {
+  private readonly http = inject(HttpClient);
+  private readonly spotifyUrl = 'https://api.spotify.com/v1';
 
   private canciones: Cancion[] = [
     {
@@ -32,5 +39,28 @@ export class MusicaService {
 
   obtenerCanciones(): Cancion[] {
     return this.canciones;
+  }
+
+  buscarEnSpotify(consulta: string): Observable<Cancion[]> {
+    const token = localStorage.getItem('spotify_access_token');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    return this.http
+      .get<SpotifySearchResponse>(`${this.spotifyUrl}/search`, {
+        headers,
+        params: { q: consulta, type: 'track', limit: '10' },
+      })
+      .pipe(
+        map((respuesta) =>
+          respuesta.tracks.items.map((cancion) => ({
+            id: cancion.id,
+            titulo: cancion.name,
+            artista: cancion.artists.map((artista) => artista.name).join(', '),
+            imagen: cancion.album.images[0]?.url ?? 'img/default-song.jpg',
+            reproducciones: cancion.popularity,
+            spotifyUrl: cancion.external_urls.spotify,
+          }))
+        )
+      );
   }
 }

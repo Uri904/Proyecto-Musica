@@ -44,6 +44,22 @@
       <button class="pill" type="button">Este año</button>
     </div>
 
+    <form class="spotify-search" (ngSubmit)="buscarEnSpotify()">
+      <input
+        type="search"
+        name="consulta"
+        [(ngModel)]="consulta"
+        placeholder="Buscar en Spotify"
+        aria-label="Buscar en Spotify"
+      >
+      <button class="pill pill--active" type="submit" [disabled]="buscando">
+        {{ buscando ? 'Buscando...' : 'Buscar' }}
+      </button>
+    </form>
+    @if (mensaje) {
+      <p role="alert">{{ mensaje }}</p>
+    }
+
     <section class="dashboard-grid">
 
       <!-- Stat: canciones escuchadas -->
@@ -76,13 +92,15 @@
                 <p class="song-title">{{ cancion.titulo }}</p>
                 <p class="song-artist">{{ cancion.artista }}</p>
               </div>
-              <button
+              <a
                 class="play-btn"
-                type="button"
+                [href]="cancion.spotifyUrl || null"
+                target="_blank"
+                rel="noopener noreferrer"
                 [attr.aria-label]="'Reproducir ' + cancion.titulo"
               >
                 ▶
-              </button>
+              </a>
             </li>
           }
         </ul>

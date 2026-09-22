@@ -309,6 +309,9 @@ html, body {
 }
 
 .play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 34px;
   height: 34px;
   flex-shrink: 0;
@@ -317,6 +320,11 @@ html, body {
   background: rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
   cursor: pointer;
+  text-decoration: none;
+}
+
+.play-btn:hover {
+  background: var(--accent-gradient);
 }
 
 .ver-todo {
