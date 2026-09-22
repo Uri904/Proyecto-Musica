@@ -11,8 +11,8 @@
 
   background: linear-gradient(
     135deg,
-    #52ABEB,
-    #63D0A1
+    #3a1256,
+    #17081f
   );
 
   padding: 20px;
@@ -22,12 +22,12 @@
   width: 100%;
   max-width: 420px;
 
-  background: white;
+  background: #3c2456;
   padding: 40px;
 
   border-radius: 20px;
 
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
 }
 
 .logo {
@@ -44,8 +44,8 @@
 
   background: linear-gradient(
     135deg,
-    #52ABEB,
-    #63D0A1
+    #9333ea,
+    #d946ef
   );
 
   font-size: 32px;
@@ -55,14 +55,14 @@ h1 {
   text-align: center;
   margin: 0;
 
-  color: #222;
+  color: #f5f0fa;
   font-size: 30px;
 }
 
 .subtitle {
   text-align: center;
 
-  color: #777;
+  color: #b9a8cc;
 
   margin: 8px 0 30px;
 }
@@ -77,14 +77,14 @@ h1 {
   margin-bottom: 8px;
 
   font-weight: 600;
-  color: #333;
+  color: #f5f0fa;
 }
 
 .input-container {
   display: flex;
   align-items: center;
 
-  border: 1px solid #ddd;
+  border: 1px solid rgba(255, 255, 255, 0.16);
 
   border-radius: 10px;
 
@@ -94,9 +94,9 @@ h1 {
 }
 
 .input-container:focus-within {
-  border-color: #52ABEB;
+  border-color: #a855f7;
 
-  box-shadow: 0 0 0 3px rgba(82, 171, 235, 0.15);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
 }
 
 .icon {
@@ -114,6 +114,12 @@ h1 {
   padding: 14px 0;
 
   font-size: 15px;
+  background: transparent;
+  color: #f5f0fa;
+}
+
+.input-container input::placeholder {
+  color: #8c7aa0;
 }
 
 .forgot-password {
@@ -124,7 +130,7 @@ h1 {
 
 .forgot-password a,
 .register a {
-  color: #3498db;
+  color: #d946ef;
 
   text-decoration: none;
 
@@ -142,8 +148,8 @@ h1 {
 
   background: linear-gradient(
     135deg,
-    #52ABEB,
-    #63D0A1
+    #9333ea,
+    #d946ef
   );
 
   color: white;
@@ -167,7 +173,7 @@ h1 {
 
   margin-top: 25px;
 
-  color: #777;
+  color: #b9a8cc;
 }
 
 .register a {
