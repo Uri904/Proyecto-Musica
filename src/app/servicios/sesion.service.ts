@@ -1,27 +1,84 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SesionService{
-      private accessToken = '';
-      
-        constructor() {
-    console.log('SesionService creado');
+export class SesionService {
+  private isBrowser: boolean;
+
+  constructor() {
+    const platformId = inject(PLATFORM_ID);
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
   guardarToken(token: string): void {
-    this.accessToken = token;
-        console.log('Token guardado:', this.accessToken);
+    if (this.isBrowser) {
+      localStorage.setItem('access_token', token);
+    }
   }
 
   obtenerToken(): string {
-        console.log('Token obtenido:', this.accessToken);
-    return this.accessToken;
-    
+    if (this.isBrowser) {
+      return localStorage.getItem('access_token') || '';
+    }
+    return '';
+  }
+
+  estaAutenticado(): boolean {
+    if (!this.isBrowser) return false;
+
+    const token = localStorage.getItem('access_token');
+    const usuarioPersistencia = localStorage.getItem('usuario_persistencia');
+
+    // Retorna true si existe un token válido O credenciales persistentes
+    const tieneToken = !!token && token !== 'undefined' && token !== 'null' && token.trim() !== '';
+    const tieneUsuario = !!usuarioPersistencia;
+
+    return tieneToken || tieneUsuario;
   }
 
   cerrarSesion(): void {
-    this.accessToken = '';
+    if (this.isBrowser) {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('usuario_persistencia');
+    }
+  }
+
+  // --- HASH Y PERSISTENCIA TXT ---
+  async hashPassword(password: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  async guardarCredencialesPersistentes(usuario: string, clavePlana: string): Promise<void> {
+    if (!this.isBrowser) return;
+
+    const passwordHash = await this.hashPassword(clavePlana);
+    const datosPersistentes = {
+      usuario,
+      passwordHash,
+      fechaGuardado: new Date().toISOString()
+    };
+
+    localStorage.setItem('usuario_persistencia', JSON.stringify(datosPersistentes));
+  }
+
+  descargarCredencialesTxt(usuario: string, passwordHash: string): void {
+    if (!this.isBrowser) return;
+
+    const contenido = `Usuario: ${usuario}\nHash256: ${passwordHash}`;
+    const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+
+    const enlace = document.createElement('a');
+    enlace.href = url;
+    enlace.download = `${usuario}_credenciales.txt`;
+    enlace.click();
+
+    setTimeout(() => window.URL.revokeObjectURL(url), 100);
   }
 }

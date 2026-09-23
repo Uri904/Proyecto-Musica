@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 import { Login } from './login/login';
-import { Musica } from './musica/musica';
-import { Registro } from './registro/registro';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
-	{ path: '', component: Login },
-	{ path: 'registro', component: Registro },
-	{ path: 'musica', component: Musica },
-	{ path: '**', redirectTo: '' },
+  { path: '', component: Login },
+  { 
+    path: 'musica', 
+    loadComponent: () => import('./musica/musica').then(m => m.Musica),
+    canActivate: [authGuard] 
+  },
+  { path: '**', redirectTo: '' }
 ];

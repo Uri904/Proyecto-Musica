@@ -25,12 +25,31 @@
   <!-- Main content -->
   <main class="main">
 
-    <header class="topbar">
+<header class="topbar">
       <div class="brand">
         <span class="brand-icon">♪</span>
         <span class="brand-name">Música</span>
       </div>
-      <img class="avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=user123&backgroundColor=b6e3f4" alt="Foto de perfil">
+
+      <!-- Contenedor con la imagen de perfil y el menú desplegable -->
+      <div class="user-menu-wrapper">
+        <button type="button" class="avatar-btn" (click)="toggleMenu()" aria-label="Menú de usuario">
+          <img class="avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=user123&backgroundColor=b6e3f4" alt="Foto de perfil">
+        </button>
+
+        @if (menuAbierto) {
+          <div class="dropdown-menu">
+            <div class="dropdown-header">
+              <p class="dropdown-user-title">Mi Cuenta</p>
+            </div>
+            <hr class="dropdown-divider" />
+            <button type="button" class="btn-logout" (click)="salir()">
+              <span class="logout-icon">↪</span>
+              Cerrar sesión
+            </button>
+          </div>
+        }
+      </div>
     </header>
 
     <section class="page-heading">
@@ -44,21 +63,7 @@
       <button class="pill" type="button">Este año</button>
     </div>
 
-    <form class="spotify-search" (ngSubmit)="buscarEnSpotify()">
-      <input
-        type="search"
-        name="consulta"
-        [(ngModel)]="consulta"
-        placeholder="Buscar en Spotify"
-        aria-label="Buscar en Spotify"
-      >
-      <button class="pill pill--active" type="submit" [disabled]="buscando">
-        {{ buscando ? 'Buscando...' : 'Buscar' }}
-      </button>
-    </form>
-    @if (mensaje) {
-      <p role="alert">{{ mensaje }}</p>
-    }
+
 
     <section class="dashboard-grid">
 
