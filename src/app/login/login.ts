@@ -31,7 +31,7 @@ export class Login implements OnInit {
     }
   }
 
-  iniciarSesion(): void {
+  async iniciarSesion(): Promise<void> {
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
       return;
@@ -41,28 +41,31 @@ export class Login implements OnInit {
     this.mensaje = '';
     const { usuario, password } = this.formulario.getRawValue();
 
+    // 1. Verificar si las credenciales coinciden con el Hash SHA-256 guardado localmente
+    const esValidoLocal = await this.sesionService.validarCredencialesLocales(usuario, password);
+
+    if (esValidoLocal) {
+      this.sesionService.guardarToken('token_activo_sesion_' + Date.now());
+      this.cargando = false;
+      await this.router.navigate(['/musica']);
+      return;
+    }
+
+    // 2. Si no coincide localmente, intentamos mediante el servicio/API
     this.usuarioService.iniciarSesion({ username: usuario, password }).subscribe({
       next: async (respuesta: any) => {
         try {
-          // 1. Extraer el token de la respuesta de la API
           const tokenRecibido = respuesta?.accessToken || respuesta?.token || respuesta?.access_token || 'token_activo_sesion';
 
-          // 2. Guardar el token en el almacenamiento persistente (localStorage)
           this.sesionService.guardarToken(tokenRecibido);
-
-          // 3. Guardar el usuario y la clave con Hash SHA-256 en localStorage
           await this.sesionService.guardarCredencialesPersistentes(usuario, password);
-
-          // 4. Redirigir a la pantalla principal (/musica)
           await this.router.navigate(['/musica']);
 
-          // 5. Generar y descargar el archivo .txt con el hash
           const hash = await this.sesionService.hashPassword(password);
           this.sesionService.descargarCredencialesTxt(usuario, hash);
 
         } catch (error) {
           console.error('Error durante el proceso de persistencia o navegación:', error);
-          // Asegura la navegación en caso de error secundario con el hash o txt
           this.router.navigate(['/musica']);
         } finally {
           this.cargando = false;

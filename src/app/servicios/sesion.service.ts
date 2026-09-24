@@ -1,11 +1,13 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router'; // 👈 Importar Router
 
 @Injectable({
   providedIn: 'root'
 })
 export class SesionService {
   private isBrowser: boolean;
+  private router = inject(Router); // 👈 Inyectar Router
 
   constructor() {
     const platformId = inject(PLATFORM_ID);
@@ -29,19 +31,18 @@ export class SesionService {
     if (!this.isBrowser) return false;
 
     const token = localStorage.getItem('access_token');
-    const usuarioPersistencia = localStorage.getItem('usuario_persistencia');
 
-    // Retorna true si existe un token válido O credenciales persistentes
-    const tieneToken = !!token && token !== 'undefined' && token !== 'null' && token.trim() !== '';
-    const tieneUsuario = !!usuarioPersistencia;
-
-    return tieneToken || tieneUsuario;
+    // IMPORTANTE: La sesión sólo está activa si existe un token válido en localStorage
+    return !!token && token !== 'undefined' && token !== 'null' && token.trim() !== '';
   }
 
   cerrarSesion(): void {
     if (this.isBrowser) {
+      // 1. Eliminamos únicamente el token activo
       localStorage.removeItem('access_token');
-      localStorage.removeItem('usuario_persistencia');
+
+      // 2. Redirigimos al usuario a la pantalla de Login
+      this.router.navigate(['/']);
     }
   }
 
@@ -54,8 +55,8 @@ export class SesionService {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  async guardarCredencialesPersistentes(usuario: string, clavePlana: string): Promise<void> {
-    if (!this.isBrowser) return;
+  async guardarCredencialesPersistentes(usuario: string, clavePlana: string): Promise<string> {
+    if (!this.isBrowser) return '';
 
     const passwordHash = await this.hashPassword(clavePlana);
     const datosPersistentes = {
@@ -65,6 +66,24 @@ export class SesionService {
     };
 
     localStorage.setItem('usuario_persistencia', JSON.stringify(datosPersistentes));
+    return passwordHash;
+  }
+
+  async validarCredencialesLocales(usuarioInput: string, claveInput: string): Promise<boolean> {
+    if (!this.isBrowser) return false;
+
+    const datosGuardados = localStorage.getItem('usuario_persistencia');
+    if (!datosGuardados) return false;
+
+    try {
+      const { usuario, passwordHash } = JSON.parse(datosGuardados);
+      const hashInput = await this.hashPassword(claveInput);
+
+      return usuario.toLowerCase() === usuarioInput.toLowerCase() && passwordHash === hashInput;
+    } catch (error) {
+      console.error('Error al validar credenciales locales:', error);
+      return false;
+    }
   }
 
   descargarCredencialesTxt(usuario: string, passwordHash: string): void {
