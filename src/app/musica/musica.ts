@@ -1,13 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SesionService } from '../servicios/sesion.service';
 
 @Component({
   selector: 'app-musica',
   standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './musica.html',
   styleUrls: ['./musica.css']
 })
@@ -15,10 +12,6 @@ export class Musica {
   private readonly sesionService = inject(SesionService);
   private readonly router = inject(Router);
 
-  // Variables existentes
-  consulta = '';
-  buscando = false;
-  mensaje = '';
   canciones: any[] = [];
   
   // Estado para mostrar/ocultar el menú flotante

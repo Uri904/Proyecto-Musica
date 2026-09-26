@@ -97,15 +97,6 @@
                 <p class="song-title">{{ cancion.titulo }}</p>
                 <p class="song-artist">{{ cancion.artista }}</p>
               </div>
-              <a
-                class="play-btn"
-                [href]="cancion.spotifyUrl || null"
-                target="_blank"
-                rel="noopener noreferrer"
-                [attr.aria-label]="'Reproducir ' + cancion.titulo"
-              >
-                ▶
-              </a>
             </li>
           }
         </ul>
